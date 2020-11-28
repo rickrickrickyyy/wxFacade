@@ -1,11 +1,7 @@
 package com.rick.wxFacade
 
-import faithful.{Future, Promise}
-
-import scala.scalajs.js
-import scala.scalajs.js.UndefOr
-
 object wxOpenApi {
+
   def login(o: Callback[Code]): Unit = {
     wx.login(o)
   }
@@ -14,10 +10,17 @@ object wxOpenApi {
     wx.checkSession(o)
   }
 
-  def navigateToMiniProgram(o: Callback[Unit]): Unit = {
+  def navigateToMiniProgram[T](o: NavigateToMiniProgramCallback[T]): Unit = {
     wx.navigateToMiniProgram(o)
   }
 
+  def navigateBackMiniProgram[T](o: NavigateBackMiniProgramCallback[T]): Unit = {
+    wx.navigateToMiniProgram(o)
+  }
+
+  def getUserInfo(o: GetUserInfoCallback): Unit = {
+    wx.getUserInfo(o)
+  }
 
   //  def getUserInfo[T](KEY: String): Future[T] = {
   //

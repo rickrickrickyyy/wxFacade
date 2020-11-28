@@ -1,6 +1,7 @@
 package com.rick.wxFacade
 
 import scala.scalajs.js
+import scala.scalajs.js.UndefOr
 
 
 trait Success[T] extends js.Object {
@@ -8,16 +9,17 @@ trait Success[T] extends js.Object {
 }
 
 trait Fail extends js.Object {
-  val fail: js.UndefOr[js.Function1[js.Error, _]] = js.undefined
+  val fail: js.UndefOr[js.Function1[ErrMsg, _]] = js.undefined
 }
 
 trait Complete extends js.Object {
   val complete: js.UndefOr[js.Function0[_]] = js.undefined
 }
 
-trait Callback[T] extends Fail with Complete {
-  val success: js.UndefOr[js.Function1[T, _]] = js.undefined
-}
+trait Callback[T]
+  extends Success[T]
+    with Fail
+    with Complete
 
 trait Key extends js.Object {
   val key: js.UndefOr[String] = js.undefined
@@ -29,6 +31,14 @@ trait Data[T] extends js.Object {
 
 trait Code extends js.Object {
   val code: js.UndefOr[String] = js.undefined
+}
+
+trait Lang extends js.Object {
+  val lang: js.UndefOr[String] = js.undefined
+}
+
+trait ExtraData[T] extends js.Object {
+  val extraData: js.UndefOr[T] = js.undefined
 }
 
 trait Timeout extends js.Object {
@@ -137,3 +147,48 @@ trait GetStorageInfoResult extends js.Object {
   val currentSize: js.UndefOr[Long] = js.undefined
   val limitSize: js.UndefOr[Long] = js.undefined
 }
+
+class NavigateToMiniProgramCallback[T](
+                                        val appId: String,
+                                        val path: js.UndefOr[String] = js.undefined,
+                                        override val extraData: js.UndefOr[T] = js.undefined,
+                                        val envVersion: js.UndefOr[String] = js.undefined,
+                                        override val success: UndefOr[js.Function1[Unit, _]] = js.undefined,
+                                        override val complete: UndefOr[js.Function0[_]] = js.undefined,
+                                        override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.undefined
+                                      ) extends Callback[Unit] with ExtraData[T]
+
+class NavigateBackMiniProgramCallback[T](override val extraData: js.UndefOr[T] = js.undefined,
+                                         override val success: UndefOr[js.Function1[Unit, _]] = js.undefined,
+                                         override val complete: UndefOr[js.Function0[_]] = js.undefined,
+                                         override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.undefined
+                                        ) extends Callback[Unit] with ExtraData[T]
+
+class UserInfo(val openid: js.UndefOr[String] = js.undefined,
+               val nickname: js.UndefOr[String] = js.undefined,
+               val headimgurl: js.UndefOr[String] = js.undefined,
+               val province: js.UndefOr[String] = js.undefined,
+               val city: js.UndefOr[String] = js.undefined,
+               val country: js.UndefOr[String] = js.undefined,
+               val phone: js.UndefOr[String] = js.undefined,
+               val sex: js.UndefOr[Int] = js.undefined,
+               val errcode: js.UndefOr[Int] = js.undefined,
+               val errmsg: js.UndefOr[String] = js.undefined,
+               val unionid: js.UndefOr[String] = js.undefined) extends js.Object
+
+class GetUserInfoResponse(
+                           val userInfo: js.UndefOr[UserInfo] = js.undefined,
+                           val rawData: js.UndefOr[String] = js.undefined,
+                           val signature: js.UndefOr[String] = js.undefined,
+                           val encryptedData: js.UndefOr[String] = js.undefined,
+                           val iv: js.UndefOr[String] = js.undefined,
+                           val cloudID: js.UndefOr[String] = js.undefined,
+                         ) extends js.Object
+
+class GetUserInfoCallback(
+                           override val success: UndefOr[js.Function1[GetUserInfoResponse, _]] = js.undefined,
+                           override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.undefined,
+                           override val complete: UndefOr[js.Function0[_]] = js.undefined,
+                           val withCredentials: js.UndefOr[Boolean] = js.undefined,
+                           override val lang: js.UndefOr[String] = js.undefined,
+                         ) extends Callback[GetUserInfoResponse] with Lang

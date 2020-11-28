@@ -22,7 +22,9 @@ object wxStorage {
       override val success: UndefOr[js.Function1[ErrMsg, _]] = js.defined {
         promise.success
       }
-      override val fail: UndefOr[js.Function1[js.Error, _]] = js.defined { e => promise.failure(new Throwable(e.name + ":" + e.message)) }
+      override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.defined { e =>
+        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
+      }
     })
     promise.future
   }
@@ -42,7 +44,9 @@ object wxStorage {
       override val success: UndefOr[js.Function1[ErrMsg, _]] = js.defined {
         promise.success
       }
-      override val fail: UndefOr[js.Function1[js.Error, _]] = js.defined { e => promise.failure(new Throwable(e.name + ":" + e.message)) }
+      override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.defined { e =>
+        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
+      }
     })
     promise.future
   }
@@ -65,7 +69,9 @@ object wxStorage {
       override val success: UndefOr[js.Function1[GetStorageInfoResult, _]] = js.defined {
         promise.success
       }
-      override val fail: UndefOr[js.Function1[js.Error, _]] = js.defined { e => promise.failure(new Throwable(e.name + ":" + e.message)) }
+      override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.defined { e =>
+        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
+      }
     })
     promise.future
   }
@@ -88,7 +94,9 @@ object wxStorage {
           }
         }
       }
-      override val fail: UndefOr[js.Function1[js.Error, _]] = js.defined { e => promise.failure(new Throwable(e.name + ":" + e.message)) }
+      override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.defined { e =>
+        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
+      }
     })
     promise.future
   }
@@ -103,11 +111,13 @@ object wxStorage {
 
   def clearStorage(): Future[_] = {
     val promise = new Promise[Unit]()
-    wx.clearStorage(new Callback[Unit] {
-      override val success: UndefOr[js.Function1[Unit,_]] = js.defined { Unit =>
-        promise.success()
+    wx.clearStorage(new Callback[Unit]{
+      override val success: UndefOr[js.Function1[Unit, _]] =  js.defined {
+        promise.success
       }
-      override val fail: UndefOr[js.Function1[js.Error, _]] = js.defined { e => promise.failure(new Throwable(e.name + ":" + e.message)) }
+      override val fail: UndefOr[js.Function1[ErrMsg, _]] =  js.defined { e =>
+        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
+      }
     })
     promise.future
   }
