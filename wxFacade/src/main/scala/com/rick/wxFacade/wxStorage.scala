@@ -3,6 +3,8 @@ package com.rick.wxFacade
 import scala.scalajs.js
 import scala.scalajs.js.UndefOr
 import faithful.{Future, Promise}
+import faithful.cats.Instances._
+import cats.syntax.all._
 
 //数据缓存
 object wxStorage {
@@ -15,18 +17,10 @@ object wxStorage {
   }
 
   def setStorage[T](KEY: String, DATA: T): Future[ErrMsg] = {
-    val promise = new Promise[ErrMsg]()
-    wx.setStorage(new SetStorageCallback[T] {
+    new SetStorageCallback[T] {
       override val key: UndefOr[String] = KEY
       override val data: UndefOr[T] = DATA
-      override val success: UndefOr[js.Function1[ErrMsg, _]] = js.defined {
-        promise.success
-      }
-      override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.defined { e =>
-        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
-      }
-    })
-    promise.future
+    }.toFuture(wx.setStorage)
   }
 
   def removeStorageSync(key: String): Unit = {
@@ -37,18 +31,8 @@ object wxStorage {
     wx.removeStorage(e)
   }
 
-  def removeStorage(KEY: String): Future[ErrMsg] = {
-    val promise = new Promise[ErrMsg]()
-    wx.removeStorage(new RemoveStorageCallback {
-      override val key: UndefOr[String] = KEY
-      override val success: UndefOr[js.Function1[ErrMsg, _]] = js.defined {
-        promise.success
-      }
-      override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.defined { e =>
-        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
-      }
-    })
-    promise.future
+  def removeStorage(key: String): Future[ErrMsg] = {
+    new RemoveStorageCallback(key).toFuture(wx.removeStorage)
   }
 
   def getStorageSync[T](key: String): js.UndefOr[T] = {
@@ -64,16 +48,7 @@ object wxStorage {
   }
 
   def getStorageInfo(): Future[GetStorageInfoResult] = {
-    val promise = new Promise[GetStorageInfoResult]()
-    wx.clearStorage(new Callback[GetStorageInfoResult] {
-      override val success: UndefOr[js.Function1[GetStorageInfoResult, _]] = js.defined {
-        promise.success
-      }
-      override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.defined { e =>
-        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
-      }
-    })
-    promise.future
+    new Callback[GetStorageInfoResult]().toFuture(wx.getStorageInfo)
   }
 
   def getStorage[T](e: GetStorageCallback[T]): Unit = {
@@ -81,24 +56,10 @@ object wxStorage {
   }
 
 
-  def getStorage[T](KEY: String): Future[T] = {
-    val promise = new Promise[T]()
-    wx.getStorage(new GetStorageCallback[T] {
+  def getStorage[T](KEY: String): Future[Option[T]] = {
+    new GetStorageCallback[T] {
       override val key: UndefOr[String] = KEY
-      override val success: UndefOr[js.Function1[GetStorageResult[T], _]] = js.defined { e =>
-        try {
-          promise.success(e.data.get)
-        } catch {
-          case e: Exception => {
-            promise.failure(e)
-          }
-        }
-      }
-      override val fail: UndefOr[js.Function1[ErrMsg, _]] = js.defined { e =>
-        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
-      }
-    })
-    promise.future
+    }.toFuture(wx.getStorage).map(e => e.data.toOption)
   }
 
   def clearStorageSync(): Unit = {
@@ -110,15 +71,6 @@ object wxStorage {
   }
 
   def clearStorage(): Future[_] = {
-    val promise = new Promise[Unit]()
-    wx.clearStorage(new Callback[Unit]{
-      override val success: UndefOr[js.Function1[Unit, _]] =  js.defined {
-        promise.success
-      }
-      override val fail: UndefOr[js.Function1[ErrMsg, _]] =  js.defined { e =>
-        promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
-      }
-    })
-    promise.future
+    new Callback[Unit]().toFuture(wx.clearStorage)
   }
 }
