@@ -13,17 +13,6 @@ def copyDir(src: sbt.File, target: sbt.File, fileType: String, preserveLastModif
   // Copy files to source files to target
   IO.copy(pairs, CopyOptions.apply(overwrite = true, preserveLastModified = preserveLastModified, preserveExecutable = false))
 }
-lazy val copyFile = inputKey[Unit]("")
-copyFile := {
-  val arguments = spaceDelimited("<arg>").parsed
-  val arg1: String = arguments.head
-  val arg2: String = arguments(1)
-  val src = (Compile / baseDirectory).value / s"${arg1}/target/scala-2.13/"
-  val dst = (Compile / baseDirectory).value / s"${arg2}/pages/"
-  println(src)
-  println(dst)
-  copyDir(src, dst, "*-opt.js", false)
-}
 
 val wxFacade = project
   .enablePlugins(ScalaJSPlugin)
@@ -35,19 +24,15 @@ val wxFacade = project
     )
   )
 
-lazy val wxJS = inputKey[Unit]("run and then open the browser")
-
 val example = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    wxJS := {
-      (Compile / fullOptJS).value
+    Compile / fullOptJS := {
+      val result = (Compile / fullOptJS).value
       val src = (Compile / baseDirectory).value / "target/scala-2.13/"
       val dst = (Compile / baseDirectory).value / s"miniProgram/pages/"
-      println(src)
-      println(dst)
-      println(s"${name.value}-opt.js*")
       copyDir(src, dst, s"${name.value}-opt.js*", false)
+      result
     },
     name := "example",
     version := "0.1",
