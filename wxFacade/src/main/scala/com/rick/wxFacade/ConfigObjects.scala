@@ -4,6 +4,7 @@ import faithful.{Future, Promise}
 
 import scala.scalajs.js
 import scala.scalajs.js.UndefOr
+import scala.scalajs.js.annotation.JSGlobal
 
 
 trait Success[T] extends js.Object {
@@ -49,6 +50,9 @@ trait Data[T] extends js.Object {
 
 trait Code extends js.Object {
   val code: js.UndefOr[String] = js.undefined
+}
+trait Url extends js.Object {
+  val url: js.UndefOr[String] = js.undefined
 }
 
 trait Lang extends js.Object {
@@ -180,17 +184,13 @@ class NavigateBackMiniProgramCallback[T](override val extraData: js.UndefOr[T] =
                                          override val complete: UndefOr[js.Function0[_]] = js.undefined,
                                         ) extends Callback[Unit] with ExtraData[T]
 
-class UserInfo(val openid: js.UndefOr[String] = js.undefined,
-               val nickname: js.UndefOr[String] = js.undefined,
-               val headimgurl: js.UndefOr[String] = js.undefined,
+class UserInfo(val nickName: js.UndefOr[String] = js.undefined,
+               val avatarUrl: js.UndefOr[String] = js.undefined,
+               val gender: js.UndefOr[Int] = js.undefined,
+               val country: js.UndefOr[String] = js.undefined,
                val province: js.UndefOr[String] = js.undefined,
                val city: js.UndefOr[String] = js.undefined,
-               val country: js.UndefOr[String] = js.undefined,
-               val phone: js.UndefOr[String] = js.undefined,
-               val sex: js.UndefOr[Int] = js.undefined,
-               val errcode: js.UndefOr[Int] = js.undefined,
-               val errmsg: js.UndefOr[String] = js.undefined,
-               val unionid: js.UndefOr[String] = js.undefined) extends js.Object
+               val language: js.UndefOr[String] = js.undefined) extends js.Object
 
 class GetUserInfoResponse(
                            val userInfo: js.UndefOr[UserInfo] = js.undefined,
