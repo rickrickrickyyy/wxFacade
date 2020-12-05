@@ -31,7 +31,7 @@ object wx {
 
 
   //wxStorage.scala
-  def clearStorage(): Future[Unit] = new clearStorage().future(wxObject.clearStorage)
+  def clearStorage(): Future[ErrMsg] = new clearStorage().future(wxObject.clearStorage)
 
   def getStorageInfo(): Future[GetStorageInfoResult] = new getStorageInfo().future(wxObject.getStorageInfo)
 

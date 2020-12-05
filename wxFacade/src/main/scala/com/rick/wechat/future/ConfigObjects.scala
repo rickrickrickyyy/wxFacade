@@ -17,6 +17,7 @@ trait Complete extends js.Object {
   val complete: js.UndefOr[js.Function0[_]] = js.undefined
 }
 
+//TODO: T <: js.Any    ? 不知道需要这样限制不
 private class Callback[T] extends Success[T] with Fail
 
 trait Key extends js.Object {

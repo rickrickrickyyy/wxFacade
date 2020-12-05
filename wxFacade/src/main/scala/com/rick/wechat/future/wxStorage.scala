@@ -12,7 +12,7 @@ trait GetStorageInfoResult extends js.Object {
   val limitSize: js.UndefOr[Long] = js.undefined
 }
 
-private class clearStorage extends Callback[Unit]
+private class clearStorage extends Callback[ErrMsg]
 
 
 private class getStorage[T](override val key: js.UndefOr[String]) extends Callback[GetStorageResult[T]] with Key
