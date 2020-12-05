@@ -1,1 +1,1 @@
-require('../example-opt.js').Pages.indexPage()
+require('../main-opt.js').Pages.indexPage()

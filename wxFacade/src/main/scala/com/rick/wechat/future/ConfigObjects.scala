@@ -1,12 +1,8 @@
-package com.rick.wechat.wx
+package com.rick.wechat.future
 
-import com.rick.wechat.facade.{Page, wxObject}
-import faithful.{Future, Promise}
-import faithful.cats.Instances
+import com.rick.wechat.facade.Page
 
 import scala.scalajs.js
-import scala.scalajs.js.UndefOr
-import scala.scalajs.js.annotation.JSGlobal
 
 
 trait Success[T] extends js.Object {
@@ -21,7 +17,7 @@ trait Complete extends js.Object {
   val complete: js.UndefOr[js.Function0[_]] = js.undefined
 }
 
-class Callback[T] extends Success[T] with Fail
+private class Callback[T] extends Success[T] with Fail
 
 trait Key extends js.Object {
   val key: js.UndefOr[String] = js.undefined

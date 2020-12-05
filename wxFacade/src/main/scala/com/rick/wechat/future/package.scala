@@ -5,7 +5,8 @@ import faithful.{Future, Promise}
 import scala.scalajs.js
 import scala.scalajs.js.Object.entries
 
-package object wx {
+package object future {
+
   implicit class FutureFactoryMethod[T](callback: Callback[T]) {
     def future(f: Callback[T] => Unit): Future[T] = {
       val promise = new Promise[T]()

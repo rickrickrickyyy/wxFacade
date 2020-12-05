@@ -1,18 +1,7 @@
 import sbt.Resolver
 import complete.DefaultParsers._
 
-def copyDir(src: sbt.File, target: sbt.File, fileType: String, preserveLastModified: Boolean): Set[sbt.File] = {
-  import Path._
-
-  // get the files we want to copy
-  val srcManagedJVM: Seq[File] = (src ** fileType).get()
-
-  // use Path.rebase to pair source files with target destination in crossTarget
-  val pairs = srcManagedJVM pair rebase(src, target)
-
-  // Copy files to source files to target
-  IO.copy(pairs, CopyOptions.apply(overwrite = true, preserveLastModified = preserveLastModified, preserveExecutable = false))
-}
+val circeVersion = "0.13.0"
 
 val wxFacade = project
   .enablePlugins(ScalaJSPlugin)
@@ -27,13 +16,8 @@ val wxFacade = project
 val example = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    Compile / fullOptJS := {
-      val result = (Compile / fullOptJS).value
-      val src = (Compile / baseDirectory).value / "target/scala-2.13/"
-      val dst = (Compile / baseDirectory).value / s"miniProgram/pages/"
-      copyDir(src, dst, s"${name.value}-opt.js*", false)
-      result
-    },
+    Compile / fastOptJS / artifactPath := baseDirectory.value / "miniProgram" / "pages" / "main-opt.js",
+    Compile / fullOptJS / artifactPath := baseDirectory.value / "miniProgram" / "pages" / "main-opt.js",
     name := "example",
     version := "0.1",
     resolvers += Resolver.bintrayRepo("hmil", "maven"),
@@ -41,7 +25,13 @@ val example = project
     scalaJSLinkerConfig ~= {
       _.withModuleKind(ModuleKind.CommonJSModule)
     },
+    scalaJSUseMainModuleInitializer := false,
     libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % "1.1.0",
+
+      "io.circe" %%% "circe-core" % circeVersion,
+      "io.circe" %%% "circe-generic" % circeVersion,
+      "io.circe" %%% "circe-parser" % circeVersion
     )
   ).dependsOn(wxFacade)
 
