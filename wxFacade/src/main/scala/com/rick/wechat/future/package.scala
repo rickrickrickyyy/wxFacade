@@ -13,10 +13,15 @@ package object future {
       callback.success = js.defined {
         promise.success
       }
-      callback.fail = js.defined { e=>
+      callback.fail = js.defined { e =>
         promise.failure(new Throwable(e.errMsg.getOrElse("errMsg:undefined")))
       }
-      f(callback)
+      try {
+        f(callback)
+      } catch {
+        case e: Throwable =>
+          promise.failure(e)
+      }
       promise.future
     }
   }

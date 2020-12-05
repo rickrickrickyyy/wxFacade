@@ -2,16 +2,19 @@ package com.rick.ui
 
 import java.util.concurrent.atomic.AtomicBoolean
 
-import com.rick.wechat.facade.{Page, Wechat}
-import com.rick.wechat.wx.{Data, PageLifeCycle}
+import com.rick.wechat._
+import com.rick.wechat.facade.{Page, Wechat, _}
+import com.rick.wechat.future.{Data, GetStorageResult, PageLifeCycle, login, wx}
+import faithful.Future
+import faithful.cats.Instances._
+import cats.syntax.all._
 
 import scala.scalajs.js
 import scala.scalajs.js.{ThisFunction1, UndefOr}
-import com.rick.wechat._
-import com.rick.wechat.facade._
-import faithful.{Future, Promise}
-import faithful.cats.Instances._
-import cats.syntax.all._
+
+case class JavaScriptException(exception: Any) extends RuntimeException {
+  override def toString() = exception.toString()
+}
 
 class IndexPage extends js.Object with PageLifeCycle[IndexData] with Data[IndexData] {
   var image: Option[String] = None
@@ -24,17 +27,20 @@ class IndexPage extends js.Object with PageLifeCycle[IndexData] with Data[IndexD
     new IndexData("defaultImage")
   }
 
+
   override val onLoad: UndefOr[ThisFunction1[Page, IndexData, _]] = js.defined { (page, data) =>
     image = data.image.toOption
-
-    wx.getUserInfo()
-      .flatMap(_ => wx.getUserInfo())
-      .flatMap(_ => wx.login())({ e =>
-        console.log("login oho no.efewefeawf")
+    wx.setStorage[String]("shoe", "shoe set set set ")
+      .flatMap(e => wx.removeStorage("shoe"))
+      .flatMap(e => wx.removeStorage("shoe"))
+      .flatMap(e => wx.removeStorage("shoeefe"))
+      .flatMap(e => wx.removeStorage("shoe"))
+      .flatMap(e => wx.removeStorage("shoe"))({ e =>
+        console.log("success:")
         console.log(e)
-        console.log("wefef")
       }, { e =>
-
+        console.log("error:")
+        console.log(e)
       })
     page.setData(data, Wechat.callback)
   }
