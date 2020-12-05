@@ -35,11 +35,20 @@ val wxFacade = project
     )
   )
 
-
+lazy val wxJS = inputKey[Unit]("run and then open the browser")
 
 val example = project
   .enablePlugins(ScalaJSPlugin)
   .settings(
+    wxJS := {
+      (Compile / fullOptJS).value
+      val src = (Compile / baseDirectory).value / "target/scala-2.13/"
+      val dst = (Compile / baseDirectory).value / s"miniProgram/pages/"
+      println(src)
+      println(dst)
+      println(s"${name.value}-opt.js*")
+      copyDir(src, dst, s"${name.value}-opt.js*", false)
+    },
     name := "example",
     version := "0.1",
     resolvers += Resolver.bintrayRepo("hmil", "maven"),
@@ -50,10 +59,4 @@ val example = project
     libraryDependencies ++= Seq(
     )
   ).dependsOn(wxFacade)
-
-commands += Command.command("wxJS") { state =>
-    "example/fullOptJS" ::
-    "copyFile example miniProgram" ::
-    state
-}
 

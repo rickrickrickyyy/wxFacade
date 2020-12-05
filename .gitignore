@@ -63,4 +63,5 @@ build
 
 
 
-miniProgram/pages/*-opt.js
+**/*-opt.js
+**/*-opt.js.map

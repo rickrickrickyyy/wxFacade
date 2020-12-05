@@ -1,4 +1,4 @@
-package com.rick.wxFacade
+package com.rick.wechat.facade
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation._
@@ -172,7 +172,7 @@ class MapContext(val mapId: String) extends js.Object {
 
 @js.native
 @JSGlobal("wx")
-object wx extends js.Object {
+object wxObject extends js.Object {
   def request (o: js.Object): RequestTask = js.native
   def uploadFile (o: js.Object): Unit = js.native
   def downloadFile (o: js.Object): Unit = js.native

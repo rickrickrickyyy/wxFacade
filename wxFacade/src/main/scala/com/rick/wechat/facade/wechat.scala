@@ -1,10 +1,10 @@
-package com.rick.wxFacade
+package com.rick.wechat.facade
 
-import scala.scalajs.js
-import js.Dynamic.literal
-import scala.util.{Success,Failure}
-import scala.concurrent.{Future,Promise}
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{Future, Promise}
+import scala.scalajs.js
+import scala.scalajs.js.Dynamic.literal
+import scala.util.{Failure, Success}
 
 object Wechat {
   type Callback = () => Unit 
@@ -38,7 +38,7 @@ object Wechat {
     val p = Promise[js.Dynamic]()
     val scb = (ret: js.Dynamic) => p.success(ret)
     val fcb = () => p.failure(js.JavaScriptException("wx.login"))
-    wx.login(literal(success = scb, fail = fcb, complete = () => cb))
+    wxObject.login(literal(success = scb, fail = fcb, complete = () => cb))
     p.future
   }
 
@@ -46,7 +46,7 @@ object Wechat {
     val p = Promise[js.Dynamic]()
     val scb = (ret: js.Dynamic) => p.success(ret.userInfo)
     val fcb = () => p.failure(js.JavaScriptException("wx.getUserInfo"))
-    wx.getUserInfo(literal(withCredentials = withCredentials,
+    wxObject.getUserInfo(literal(withCredentials = withCredentials,
                            lang = lang,
                            success = scb,
                            fail = fcb,
@@ -58,7 +58,7 @@ object Wechat {
     val p = Promise[js.Dynamic]()
     val scb = (ret: js.Dynamic) => p.success(ret)
     val fcb = () => p.failure(js.JavaScriptException("wx.request"))
-    wx.request(literal(url = url,
+    wxObject.request(literal(url = url,
                        data = data,
                        header = header,
                        method = method,
