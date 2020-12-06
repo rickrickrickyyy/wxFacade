@@ -40,4 +40,6 @@ object wx {
   def setStorage[T](key: UndefOr[String], data: UndefOr[T]): Future[ErrMsg] = new setStorage(key, data).future(wxObject.setStorage)
 
   def getStorage[T](key: UndefOr[String]): Future[GetStorageResult[T]] = new getStorage[T](key).future(wxObject.getStorage)
+
+  def getSystemInfo() :Future[SystemInfo] = new Callback[SystemInfo].future(wxObject.getSystemInfo)
 }

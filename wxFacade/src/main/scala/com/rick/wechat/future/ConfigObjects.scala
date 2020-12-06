@@ -137,3 +137,50 @@ trait onTabItemTap extends js.Object {
   val onTabItemTap: js.UndefOr[js.ThisFunction1[Page, TabItem, _]] = js.undefined
 }
 
+@js.native
+trait safeArea extends js.Object {
+  val left: js.UndefOr[Int] = js.native
+  val right: js.UndefOr[Int] = js.native
+  val top: js.UndefOr[Int] = js.native
+  val bottom: js.UndefOr[Int] = js.native
+  val width: js.UndefOr[Int] = js.native
+  val height: js.UndefOr[Int] = js.native
+}
+
+@js.native
+trait SystemInfo extends js.Object {
+  val brand: js.UndefOr[String] = js.native
+  val model: js.UndefOr[String] = js.native
+  val language: js.UndefOr[String] = js.native
+  val version: js.UndefOr[String] = js.native
+  val system: js.UndefOr[String] = js.native
+  val platform: js.UndefOr[String] = js.native
+  val SDKVersion: js.UndefOr[String] = js.native
+  val theme: js.UndefOr[String] = js.native
+
+  val pixelRatio: js.UndefOr[Int] = js.native
+  val screenWidth: js.UndefOr[Int] = js.native
+  val screenHeight: js.UndefOr[Int] = js.native
+  val windowWidth: js.UndefOr[Int] = js.native
+  val windowHeight: js.UndefOr[Int] = js.native
+  val statusBarHeight: js.UndefOr[Int] = js.native
+  val fontSizeSetting: js.UndefOr[Int] = js.native
+  val benchmarkLevel: js.UndefOr[Int] = js.native
+
+  val albumAuthorized: js.UndefOr[Int] = js.native
+  val cameraAuthorized: js.UndefOr[Int] = js.native
+  val locationAuthorized: js.UndefOr[Int] = js.native
+  val microphoneAuthorized: js.UndefOr[Int] = js.native
+  val notificationAuthorized: js.UndefOr[Int] = js.native
+  val notificationAlertAuthorized: js.UndefOr[Int] = js.native
+  val notificationBadgeAuthorized: js.UndefOr[Int] = js.native
+  val notificationSoundAuthorized: js.UndefOr[Int] = js.native
+  val bluetoothEnabled: js.UndefOr[Int] = js.native
+  val locationEnabled: js.UndefOr[Int] = js.native
+  val wifiEnabled: js.UndefOr[Int] = js.native
+  val locationReducedAccuracy: js.UndefOr[Int] = js.native
+
+  val safeArea: js.UndefOr[Int] = js.native
+
+
+}
