@@ -127,6 +127,14 @@ trait onResize extends js.Object {
 }
 
 @js.native
+trait Rect extends js.Object {
+  val left: js.UndefOr[Int] = js.native
+  val top: js.UndefOr[Int] = js.native
+  val width: js.UndefOr[Int] = js.native
+  val height: js.UndefOr[Int] = js.native
+}
+
+@js.native
 trait TabItem extends js.Object {
   val index: js.UndefOr[String] = js.native
   val pagePath: js.UndefOr[String] = js.native
