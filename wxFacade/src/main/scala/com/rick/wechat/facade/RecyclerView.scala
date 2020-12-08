@@ -31,6 +31,7 @@ class RecycleContext[T] extends js.Object {
 @JSImport("miniprogram-recycle-view", JSImport.Default)
 object RecycleContext extends js.Object {
   def apply[T](o: RecycleContextOptions): RecycleContext[T] = js.native
+
   def apply[T](o: RecycleContextOptionsFun[T]): RecycleContext[T] = js.native
 }
 
@@ -46,17 +47,17 @@ class RecycleContextOptions(val id: String,
                             val root: js.UndefOr[Page]) extends js.Object
 
 class RecycleContextOptionsFun[T](val id: String,
-                               val dataKey: String,
-                               val page: Page,
-                               val itemSize: js.Function2[T, Int, RecycleViewItemSize],
-                               val useInPage: Boolean,
-                               val root: js.UndefOr[Page]) extends js.Object
+                                  val dataKey: String,
+                                  val page: Page,
+                                  val itemSize: js.ThisFunction2[RecycleContext[T], T, Int, RecycleViewItemSize],
+                                  val useInPage: Boolean,
+                                  val root: js.UndefOr[Page]) extends js.Object
 
 object RecycleContextOptions {
   def apply[T](id: String,
-            dataKey: String,
-            page: Page,
-            itemSize: js.Function2[T, Int, RecycleViewItemSize]): RecycleContextOptionsFun[T] =
+               dataKey: String,
+               page: Page,
+               itemSize: js.ThisFunction2[RecycleContext[T], T, Int, RecycleViewItemSize]): RecycleContextOptionsFun[T] =
     new RecycleContextOptionsFun(id, dataKey, page, itemSize, false, js.undefined)
 
   def apply(id: String,
@@ -66,10 +67,10 @@ object RecycleContextOptions {
     new RecycleContextOptions(id, dataKey, page, itemSize, false, js.undefined)
 
   def apply[T](id: String,
-            dataKey: String,
-            page: Page,
-            itemSize: js.Function2[T, Int, RecycleViewItemSize],
-            root: Page): RecycleContextOptionsFun[T] =
+               dataKey: String,
+               page: Page,
+               itemSize: js.ThisFunction2[RecycleContext[T], T, Int, RecycleViewItemSize],
+               root: Page): RecycleContextOptionsFun[T] =
     new RecycleContextOptionsFun(id, dataKey, page, itemSize, true, js.defined {
       root
     })
