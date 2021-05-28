@@ -1,16 +1,15 @@
 package com.rick.wechat.future
 
-import com.rick.wechat.facade.wxObject
-import faithful.Future
-
 import scala.scalajs.js
 import scala.scalajs.js.UndefOr
 //TODO:
 class EventChannel()
 
-private class RouteCallback[T <: js.Object](path: String, data: Option[T] = None) extends navigateToCallBack[T, Unit](path, data)
+//private class RouteCallback[T <: js.Object](path: String, data: Option[T] = None)
+//  extends navigateToCallBack[T, Unit](path, data)
 
-private class navigateToCallBack[T <: js.Object, EventChannel](path: String, data: Option[T] = None) extends Callback[EventChannel] with Url {
+private class navigateToCallBack[T <: js.Object, EventChannel](path: String, data: Option[T] = None)
+  extends Callback[EventChannel] with Url {
   override val url: UndefOr[String] = js.defined {
     path + data.map(query).getOrElse("")
   }

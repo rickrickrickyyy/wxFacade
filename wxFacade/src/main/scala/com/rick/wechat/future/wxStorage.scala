@@ -14,14 +14,11 @@ trait GetStorageInfoResult extends js.Object {
 
 private class clearStorage extends Callback[ErrMsg]
 
-
 private class getStorage[T](override val key: js.UndefOr[String]) extends Callback[GetStorageResult[T]] with Key
-
 
 private class getStorageInfo extends Callback[GetStorageInfoResult]
 
-
 private class removeStorage(override val key: js.UndefOr[String]) extends Callback[ErrMsg] with Key
 
-
-private class setStorage[T](override val key: js.UndefOr[String], override val data: UndefOr[T]) extends Callback[ErrMsg] with Key with Data[T]
+private class setStorage[T](override val key: js.UndefOr[String], override val data: UndefOr[T])
+  extends Callback[ErrMsg] with Key with Data[T]

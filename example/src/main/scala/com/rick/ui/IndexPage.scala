@@ -2,12 +2,10 @@ package com.rick.ui
 
 import java.util.concurrent.atomic.AtomicBoolean
 
-import com.rick.wechat._
-import com.rick.wechat.facade.{Page, Wechat, _}
-import com.rick.wechat.future.{Data, GetStorageResult, PageLifeCycle, login, wx}
-import faithful.Future
-import faithful.cats.Instances._
 import cats.syntax.all._
+import com.rick.wechat.facade.{Page, Wechat, _}
+import com.rick.wechat.future.{Data, PageLifeCycle, wx}
+import faithful.cats.Instances._
 
 import scala.scalajs.js
 import scala.scalajs.js.{ThisFunction1, UndefOr}

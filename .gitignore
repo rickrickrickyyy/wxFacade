@@ -65,3 +65,7 @@ build
 
 **/*-opt.js
 **/*-opt.js.map
+
+**/**/miniprogram_npm
+
+**/**/node_modules
